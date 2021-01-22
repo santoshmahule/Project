@@ -1,0 +1,25 @@
+Options +FollowSymlinks
+RewriteEngine On
+
+# deal with admin first
+RewriteCond %{REQUEST_URI} ^/advanced/(admin)
+RewriteRule ^admin/assets/(.*)$ backend/web/assets/$1 [L]
+RewriteRule ^admin/css/(.*)$ backend/web/css/$1 [L]
+RewriteRule ^admin/theme/(.*)$ backend/web/theme/$1 [L]
+
+
+RewriteCond %{REQUEST_URI} !^/advanced/backend/web/(assets|cssItheme)/
+RewriteCond %{REQUEST_URI} ^/advanced/(admin)
+RewriteRule ^.*$ backend/web/index.php [L]
+
+#frontend
+RewriteCond %{REQUEST_URI} ^/advanced/(assets|css|theme)
+RewriteRule ^assets/(.*)$ frontend/web/assets/$1 [L]
+RewriteRule ^css/(.*)$ frontend/web/css/$1 [L]
+
+
+RewriteCond %{REQUEST_URI} !^/advanced/(frontend|backend)/web/(assets|css|theme)/
+RewriteCond %{REQUEST_URI} !index.php
+RewriteCond %{REQUEST_FILENAME} !-f [OR]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ frontend/web/index.php
